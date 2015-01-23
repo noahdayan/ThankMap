@@ -64,12 +64,16 @@
                                       reuseIdentifier:cellIdentifier];
     }
     
-    cell.imageView.layer.cornerRadius = (cell.imageView.frame.size.width / 2);
-    cell.imageView.clipsToBounds = YES;
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:10];
+    UILabel *nameLabel = (UILabel *)[cell viewWithTag:20];
+    UILabel *actionLabel = (UILabel *)[cell viewWithTag:30];
+    
+    imageView.layer.cornerRadius = (imageView.frame.size.width / 2);
+    imageView.clipsToBounds = YES;
     
     // Configure the cell to show user
-    cell.textLabel.text = object[@"profile"][@"name"];
-    cell.detailTextLabel.text = object[@"profile"][@"email"];
+    nameLabel.text = object[@"profile"][@"name"];
+    actionLabel.text = object[@"profile"][@"email"];
     
     NSString *userProfilePhotoURLString = object[@"profile"][@"pictureURL"];
     // Download the user's facebook profile picture
@@ -81,7 +85,7 @@
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                    if (connectionError == nil && data != nil) {
-                                       cell.imageView.image = [UIImage imageWithData:data];
+                                       imageView.image = [UIImage imageWithData:data];
                                        
                                    } else {
                                        NSLog(@"Failed to load profile photo.");

@@ -34,7 +34,11 @@
     self.geocoder = [[CLGeocoder alloc] init];
     self.locationManager = [[CLLocationManager alloc] init];
     
-    [self.locationManager requestWhenInUseAuthorization];
+    if([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+    {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
     [self.locationManager startUpdatingLocation];
 }
 

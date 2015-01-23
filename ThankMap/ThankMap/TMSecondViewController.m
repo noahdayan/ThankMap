@@ -84,8 +84,12 @@
                                       reuseIdentifier:cellIdentifier];
     }
     
-    cell.imageView.layer.cornerRadius = (cell.imageView.frame.size.width / 2);
-    cell.imageView.clipsToBounds = YES;
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:10];
+    UILabel *nameLabel = (UILabel *)[cell viewWithTag:20];
+    UILabel *actionLabel = (UILabel *)[cell viewWithTag:30];
+    
+    imageView.layer.cornerRadius = (imageView.frame.size.width / 2);
+    imageView.clipsToBounds = YES;
     
     PFObject *user;
     
@@ -97,23 +101,23 @@
         
         switch ((int)[object[@"rating"] integerValue]) {
             case 0:
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Rating: Bad", place[@"name"]];
+                actionLabel.text = [NSString stringWithFormat:@"%@ Rating: Bad", place[@"name"]];
                 break;
                 
             case 1:
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Rating: OK", place[@"name"]];
+                actionLabel.text = [NSString stringWithFormat:@"%@ Rating: OK", place[@"name"]];
                 break;
                 
             case 2:
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Rating: Good", place[@"name"]];
+                actionLabel.text = [NSString stringWithFormat:@"%@ Rating: Good", place[@"name"]];
                 break;
                 
             case 3:
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Rating: Great", place[@"name"]];
+                actionLabel.text = [NSString stringWithFormat:@"%@ Rating: Great", place[@"name"]];
                 break;
                 
             default:
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Rating: None", place[@"name"]];
+                actionLabel.text = [NSString stringWithFormat:@"%@ Rating: None", place[@"name"]];
                 break;
         }
     }
@@ -121,11 +125,11 @@
     {
         user = object[@"from"];
         
-        cell.detailTextLabel.text = @"follows you now!";
+        actionLabel.text = @"follows you now!";
     }
     
     // Configure the cell to show user
-    cell.textLabel.text = user[@"profile"][@"name"];
+    nameLabel.text = user[@"profile"][@"name"];
     
     NSString *userProfilePhotoURLString = user[@"profile"][@"pictureURL"];
     // Download the user's facebook profile picture
@@ -137,7 +141,7 @@
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                    if (connectionError == nil && data != nil) {
-                                       cell.imageView.image = [UIImage imageWithData:data];
+                                       imageView.image = [UIImage imageWithData:data];
                                        
                                    } else {
                                        NSLog(@"Failed to load profile photo.");
